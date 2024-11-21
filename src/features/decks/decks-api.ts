@@ -11,8 +11,14 @@ export const decksApi = {
   getDecks() {
     return instance.get<DecksResponse>('v2/decks')
   },
-  addDeck(name: string) {
-    return instance.post<addDeckResponse>('v1/decks', { name })
+  addDeck(params: AddDeckParams) {
+    return instance.post<Deck>('v1/decks', params)
+  },
+  deleteDeck(id: string) {
+    return instance.delete<Deck>(`v1/decks/${id}`)
+  },
+  updateDeck({ id, name }: UpdateDeckParams) {
+    return instance.patch<Deck>(`v1/decks/${id}`, { name })
   },
 }
 
@@ -43,4 +49,13 @@ export type Pagination = {
   totalItems: number
 }
 
-export type addDeckResponse = Omit<Deck, 'isFavorite'>
+//export type addDeckResponse = Omit<Deck, 'isFavorite'>
+
+export type AddDeckParams = {
+  name: string
+}
+
+export type UpdateDeckParams = {
+  id: string
+  name: string
+}
